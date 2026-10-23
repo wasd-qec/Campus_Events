@@ -31,12 +31,14 @@ const almostFull = computed(() => props.event.capacity-props.event.booked<=5 && 
     <!-- TODO 6: when full, show only <p class="badge">Full</p>.
          Otherwise show "N seats left" ("1 seat left" for one seat),
          with the class "warn" when almost full. Use v-if / v-else. -->
-    <p class="seats">3 seats left</p>
-    <p v-if="isFull==true">Full</p>
-    <p v-else-if="isFull==false">{{ left }} seats left</p>
-    <p v-if="almostFull==true">Almost full</p>    
+    <p v-if="isFull" class="badge">Full</p>
+    <p v-else-if="left==1">1 seat left</p>
+    <p v-else-if="almostFull" class="warn">{{ event.capacity - event.booked }} seats left</p>
+    <p v-else>{{ event.capacity - event.booked }} seats left</p>
     <!-- TODO 7: disable the button when full; on click, emit "book" with the event id -->
-    <button>Book a seat</button>
+     <button :disabled="isFull" @click="emit('book',event.id)">
+      Book a seat
+    </button>
   </article>
 </template>
 
