@@ -5,14 +5,24 @@ import EventCard from "./EventCard.vue";
 
 const props = defineProps<{ events: CampusEvent[] }>();
 // TODO 1: declare a "book" event (same as EventCard) so the list can pass it up
-
+const emits = defineEmits<{
+  book : [id:Number];
+}>();
 // TODO 2: two refs for the filters
 //   search   -> the text typed in the search box
 //   category -> Category | "all", starts at "all"
+const search = ref('');
+const category = ref('all');
 
 // TODO 3: a computed `visible` list:
 //   - keep events of the selected category (or all)
-//   - keep events whose title OR location contains the search text, ignoring case
+//   - keep events whose title OR location contains the search text, ignoring 
+const visible = computed(()=>{
+  const q = search.value.trim().toLowerCase();
+  const selectedEventCategory = props.events.filter(e=>category.value=='all'||e.category==category.value);
+  const selectLocationTitle = props.events.filter(e=>e.title.includes(q));
+  return selectLocationTitle && selectedEventCategory;
+})
 </script>
 
 <template>
