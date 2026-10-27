@@ -48,8 +48,7 @@ const visible = computed(() => {
     <!-- TODO 6: render one EventCard per visible event (v-for with a :key),
          pass the event as a prop and pass its "book" event up.
          When nothing is visible, show the empty message instead (v-if / v-else). -->
-    <p v-if="visible.length">
-    <div class="grid">
+    <div v-if="visible.length" class="grid">
       <EventCard
       v-for="e in visible"
       :key="e.id"
@@ -57,7 +56,6 @@ const visible = computed(() => {
       @book="emits('book', $event)"
       />
     </div>
-    </p>
     <p v-else>
     No events match your search.
     </p>
