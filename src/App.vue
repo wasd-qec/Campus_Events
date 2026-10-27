@@ -49,7 +49,8 @@ if(saved){
     <header>
       <h1>Campus Events</h1>
       <!-- TODO 5: show the real count ("1 seat" / "N seats") -->
-      <p class="mine">You have booked 0 seats.</p>
+      <p v-if="bookingCount==1">You have booked 1 seat.</p>
+      <p v-else>You have booked {{ bookingCount }} seats</p>
     </header>
     <EventList :events="events" @book="onBook" />
   </main>
