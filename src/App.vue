@@ -8,17 +8,40 @@ import type { CampusEvent } from "./types";
 const events = ref<CampusEvent[]>(initialEvents.map(e => ({ ...e })));
 
 // TODO 1: a ref `myBookings` holding the ids of the events I booked (one entry per seat)
+const myBookings = ref<number[]>([]);
+
 // TODO 2: a computed `bookingCount`
+const bookingCount = computed(() => {
+  return myBookings.value.length;
+});
+// or simply:
+// const bookingCount = computed(() => myBookings.value.length);
+
 
 // TODO 3: onBook(id): find the event; if it still has a seat,
 //         increase its `booked` and add the id to myBookings
 function onBook(id: number) {
+  const found = events.value.find(e => e.id === id);
+  if (found == undefined){return;}
+  if (found.booked<found.capacity){
+    found.booked++;
+    myBookings.value.push(id);
+  }
   console.log("book", id);
 }
 
+
 // TODO 4 (bonus): keep my bookings after a page reload
 //   - watch myBookings and save it to localStorage (JSON.stringify)
+watch(myBookings, (newVal) => {
+  localStorage.setItem("myBookings", JSON.stringify(newVal));
+}, {deep: true});
 //   - read it back when the app starts, and add those seats to `booked`
+const saved = localStorage.getItem('myBookings');
+if(saved){
+  const ids: number[] = JSON.parse(saved);
+  ids.forEach(id => onBook(id));
+}
 </script>
 
 <template>
