@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory, type RouterHistory } from "vue-router";
 import { useSessionStore } from "../stores/session";
-import EventsPage from "../pages/EventsPage.vue";
-import NewEventPage from "../pages/NewEventPage.vue";
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -15,7 +13,7 @@ declare module "vue-router" {
 //   anything else  name "not-found"     NotFoundPage      path: "/:pathMatch(.*)*"
 // Question: why must "/events/new" come before "/events/:id" if :id had no (\\d+)?
 export const routes = [
-  { path: "/", name: "events", component: EventsPage },
+  { path: "/", name: "events", component: () => import("../pages/EventsPage.vue") },
   {
     path: "/events/new",
     name: "event-new",
@@ -43,10 +41,11 @@ export const routes = [
 export function makeRouter(history: RouterHistory = createWebHistory()) {
   const router = createRouter({ history, routes });
 
-  // TODO A2: a global guard (router.beforeEach).
-  // If the route has meta.organiserOnly and the session is not an organiser,
-  // redirect to { name: "events", query: { denied: "1" } }.
-  void useSessionStore; // remove this line when you use the store
+  router.beforeEach((to) => {
+    if (to.meta.organiserOnly && useSessionStore().role !== "organiser") {
+      return { name: "events", query: { denied: "1" } };
+    }
+  });
 
   return router;
 }
