@@ -17,7 +17,7 @@ npm run check   # type-check
 Already done for you: the API layer (`src/api/`), the pages (`src/pages/`),
 `EventForm.vue` (a finished form to copy from), the session store (role switch).
 
-Work through the TODOs:
+The practice implementation is complete:
 
 - **A** `src/router/index.ts`: routes, params, lazy loading, a guard
 - **B** `src/stores/events.ts`: a store with loading / error / success states
@@ -25,7 +25,7 @@ Work through the TODOs:
 - **D** `src/stores/bookings.ts`: an action that calls the API and updates another store
 - **E** `src/composables/useEventFilters.ts`: move week 4's filtering into a composable
 
-You are done when `npm test` passes (29 tests), `npm run check` shows no errors,
-and you can book a seat and create an event in the browser.
+`npm test` passes all 29 tests, `npm run check` reports no errors, and the app
+supports booking a seat and creating an event in the browser.
 
 `db.json` changes when you book (json-server saves to it). `git checkout db.json` resets it.

@@ -6,12 +6,6 @@ declare module "vue-router" {
     organiserOnly?: boolean;
   }
 }
-// TODO A1: add these routes. Lazy-load each page: component: () => import("../pages/....vue")
-//   /events/new    name "event-new"     NewEventPage      meta: { organiserOnly: true }
-//   /events/:id    name "event-detail"  EventDetailPage   props: true, and only digits: ":id(\\d+)"
-//   /my-bookings   name "my-bookings"   MyBookingsPage
-//   anything else  name "not-found"     NotFoundPage      path: "/:pathMatch(.*)*"
-// Question: why must "/events/new" come before "/events/:id" if :id had no (\\d+)?
 export const routes = [
   { path: "/", name: "events", component: () => import("../pages/EventsPage.vue") },
   {

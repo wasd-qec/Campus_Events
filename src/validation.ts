@@ -3,11 +3,6 @@ import type { BookingInput, EventInput, FormErrors } from "./types";
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const MAX_SEATS_PER_BOOKING = 4;
 
-// TODO C1: return an error message for each invalid field (see validateEvent below for the pattern).
-//   name:  at least 2 characters after trim          -> "Enter your name (at least 2 characters)."
-//   email: must match EMAIL after trim                -> "Enter a valid email address."
-//   seats: a whole number of at least 1               -> "Book at least 1 seat."
-//          at most min(MAX_SEATS_PER_BOOKING, seatsLeft) -> "You can book at most 4 seats." ("1 seat" when the max is 1)
 export function validateBooking(form: BookingInput, seatsLeft: number): FormErrors<BookingInput> {
   const errors: FormErrors<BookingInput> = {};
   if (form.name.trim().length < 2) errors.name = "Enter your name (at least 2 characters).";

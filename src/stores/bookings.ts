@@ -21,14 +21,6 @@ export const useBookingsStore = defineStore("bookings", () => {
     }
   }
 
-  // TODO D1: book `input.seats` seats for `event`.
-  //   1. If input.seats is more than the seats left, throw new ApiError(409, "Not enough seats left.")
-  //      without calling the API.
-  //   2. POST the booking: bookingsApi.create({ eventId, name, email, seats, createdAt: now as ISO string })
-  //   3. PATCH the event's new seat count: eventsApi.setBooked(event.id, event.booked + input.seats)
-  //   4. Put the updated event in the events store (useEventsStore().replace) and
-  //      add the booking at the start of `bookings`. Return the booking.
-  // Question: what goes wrong if step 2 succeeds and step 3 fails? (We fix this properly in week 7.)
   async function book(event: CampusEvent, input: BookingInput): Promise<Booking> {
     if (input.seats > seatsLeft(event)) {
       throw new ApiError(409, "Not enough seats left.");
