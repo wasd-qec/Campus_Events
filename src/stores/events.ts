@@ -12,15 +12,21 @@ export const useEventsStore = defineStore("events", () => {
   const error = ref<string | null>(null);
 
   // getters
-  // TODO B1: byId should return a function (id: number) => the event with that id, or undefined
-  const byId = computed(() => (_id: number): CampusEvent | undefined => undefined);
+  const byId = computed(() => (id: number): CampusEvent | undefined =>
+    events.value.find(event => event.id === id)
+  );
 
-  // actions
-  // TODO B2: load all events with eventsApi.list().
-  //   before the request: status "loading", error null
-  //   on success:         store the events, status "success"
-  //   on failure:         error = the error's message, status "error"
-  async function fetchAll() {}
+  async function fetchAll() {
+    status.value = "loading";
+    error.value = null;
+    try {
+      events.value = await eventsApi.list();
+      status.value = "success";
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : "Could not load events.";
+      status.value = "error";
+    }
+  }
 
   // Use the cached event if we have it, otherwise ask the API
   async function fetchOne(id: number): Promise<CampusEvent> {
